@@ -4,6 +4,7 @@ import Shape.*
 
 sealed trait Tree
 case class Node(value: Int, Left: Tree, right: Tree) extends Tree
+case class sNode(value: Double, scaleLeft: Tree, scaleRight: Tree) extends Tree
 
 case object Empty extends Tree
 
@@ -20,4 +21,17 @@ object heightCount {
   }
   //starts computation of height with a function that calls the helper function
   def getHeight(tree: Tree): Int = height(tree, 0)
+
+  //added additional function for scale behavior
+  def scale(tree : Tree, factor : Double): Tree = {
+   tree match{
+      case Node(value, left, right) =>
+         val scaleLeft = scale(left, factor)
+         val scaleRight = scale(right, factor)
+         val sVal = value*factor
+         sNode(sVal, scaleLeft, scaleRight)
+      case _ =>
+         Empty
+   }
+  }
 }
